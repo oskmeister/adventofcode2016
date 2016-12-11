@@ -1,7 +1,7 @@
+#include <array>
 #include <iostream>
 #include <queue>
 #include <set>
-#include <vector>
 
 using namespace std;
 
@@ -21,9 +21,9 @@ using namespace std;
 
 // {P, Q, R, S, T} x {G, M}
 
-const static int NUM = 7;
+const static int NUM = 6;
 
-typedef pair<int, vector<int>> GameState;
+typedef pair<int, array<int, 4>> GameState;
 
 inline int tr(const string &s) {
 	int index = s[0] - 'P';
@@ -45,23 +45,23 @@ inline bool is_valid(const int row) {
     return true;
 }
 
-inline bool is_valid(const vector<int> &state) {
+inline bool is_valid(const array<int, 4> &state) {
     for (const auto &v : state) {
         if (!is_valid(v)) return false;
     }
-    // if (state[0] && state[3]) return false;
+    if (state[0] && state[3]) return false;
     return true;
 }
 
-inline bool is_end(const vector<int> &state) {
-    return state[3] == (1<<14) - 1;
+inline bool is_end(const array<int, 4> &state) {
+    return state[3] == (1<<(2*NUM)) - 1;
 }
 
 vector<GameState> get_moves(const GameState &game_state) {
     vector<GameState> result;
     const int elevator_index = game_state.first;
     const int row = game_state.second[elevator_index];
-    for (int b = 1; b < (1<<14); ++b) {
+    for (int b = 1; b < (1<<(2*NUM)); ++b) {
         if (__builtin_popcount(b) > 2) continue;
         if (((b & row) | ~b) == ~0) {
             if (elevator_index > 0) {
@@ -84,7 +84,7 @@ vector<GameState> get_moves(const GameState &game_state) {
 }
 
 int main() {
-	vector<int> state {
+	array<int, 4> state {
 		tr("TG") | tr("TM") | tr("PG") | tr("SG") | tr("UG") | tr("UM") | tr("VG") | tr("VM"),
 		tr("PM") | tr("SM"),
 		tr("QG") | tr("QM") | tr("RG") | tr("RM"),
