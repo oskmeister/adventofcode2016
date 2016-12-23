@@ -4,5 +4,5 @@ while cur > 0:
     prev = cur * prev
     cur -= 1
 
-print prev + 6438
+print prev + 87*74
 
