@@ -15,7 +15,7 @@ int main() {
             grid.push_back(line);
         }
     }
-    int num_points;
+    int num_points = 0;
     int start_r, start_c;
 
     for (int r = 0; r < grid.size(); ++r) {
